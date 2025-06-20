@@ -1,11 +1,12 @@
 require 'sinatra'
 require 'json'
 
+# Desabilita TODAS as proteções de segurança do Rack::Protection.
+# Isso resolve o erro "Host not permitted".
+disable :protection
+
 # Roda o servidor em todas as interfaces de rede, necessário para o Docker
 set :bind, '0.0.0.0'
-
-# Desabilita a proteção de Host Header do Sinatra para permitir requisições de qualquer domínio
-set :protection, except: :host_header
 
 # Endpoint principal para dobrar o valor
 get '/dobrarValor' do
