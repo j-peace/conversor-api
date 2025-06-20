@@ -1,26 +1,32 @@
-require 'sinatra'
+require 'sinatra/base'
 require 'json'
 
-# Desabilita TODAS as proteções de segurança do Rack::Protection.
-# Isso resolve o erro "Host not permitted".
-disable :protection
+class ApiApp < Sinatra::Base
+  # Desabilita TODAS as proteções de segurança do Rack::Protection.
+  # Esta é a correção definitiva para o erro "Host not permitted".
+  disable :protection
 
-# Roda o servidor em todas as interfaces de rede, necessário para o Docker
-set :bind, '0.0.0.0'
+  # Configurações do servidor
+  configure do
+    set :bind, '0.0.0.0'
+  end
 
-# Endpoint principal para dobrar o valor
-get '/dobrarValor' do
-  content_type :json
+  # Endpoint para listar unidades
+  get '/list_of_units' do
+    content_type :json
+    { list_of_units: ['k', 'f', 'c'] }.to_json
+  end
 
-  # Pega o parâmetro 'valor' da URL, converte para inteiro
-  valor = params['valor'].to_i
+  # Endpoint para dobrar o valor
+  get '/dobrarValor' do
+    content_type :json
+    valor = params['valor'].to_i
+    { resultado: valor * 2 }.to_json
+  end
 
-  # Retorna o resultado em formato JSON
-  { resultado: valor * 2 }.to_json
-end
-
-# Endpoint raiz para verificar se a API está no ar
-get '/' do
-  content_type :json
-  { message: 'API em Ruby com Sinatra está no ar!' }.to_json
+  # Endpoint raiz para verificar se a API está no ar
+  get '/' do
+    content_type :json
+    { message: 'API em Ruby com Sinatra está no ar!' }.to_json
+  end
 end 
