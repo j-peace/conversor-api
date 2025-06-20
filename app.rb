@@ -23,6 +23,6 @@ class ApiApp < Sinatra::Base
 
   get '/conversion' do
     content_type :json
-    { converted_temp: params['temperatureInCelsius'] + 1 }.to_json
+    { converted_temp: params['temperatureInCelsius'].to_f + 1 }.to_json
   end
 end 
