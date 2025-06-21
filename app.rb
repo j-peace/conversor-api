@@ -3,17 +3,17 @@ require 'json'
 
 class ApiApp < Sinatra::Base
   # set host authorization to all environments
-  set :host_authorization, { permitted_hosts: [] }
+  set :host_authorization, {permitted_hosts: []}
   configure :development do
-    set :host_authorization, { permitted_hosts: [] }
+    set :host_authorization, {permitted_hosts: []}
   end
   configure :production do
-    set :host_authorization, { permitted_hosts: [".fly.dev"] }
+    set :host_authorization, {permitted_hosts: [".fly.dev"]}
   end
 
   get '/' do
     content_type :json
-    { message: 'API em Ruby wiht Sinatra is running!' }.to_json
+    {message: 'API em Ruby wiht Sinatra is running!'}.to_json
   end
 
   get '/list_of_units' do
