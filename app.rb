@@ -18,11 +18,14 @@ class ApiApp < Sinatra::Base
 
   get '/list_of_units' do
     content_type :json
-    { list_of_units: ['k', 'f', 'c'] }.to_json
+    { list_of_units: ['K', 'F', 'C', 'N'] }.to_json
   end
 
   get '/conversion' do
     content_type :json
-    { converted_temp: params['temperatureInCelsius'].to_f + 1 }.to_json
+    return { converted_temp: params['temperatureInCelsius'].to_f - 5 }.to_json if params['targetUnit'] == "F"
+    return { converted_temp: params['temperatureInCelsius'].to_f + 10 }.to_json if params['targetUnit'] == "K"
+    return { converted_temp: params['temperatureInCelsius'].to_f + 5 }.to_json if params['targetUnit'] == "N"
+    return { converted_temp: params['temperatureInCelsius'].to_f }.to_json
   end
 end 
